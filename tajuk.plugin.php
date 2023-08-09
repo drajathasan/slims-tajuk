@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Tajuk
- * Plugin URI: https://github.com/drajathasan/tajuk
+ * Plugin URI: https://github.com/drajathasan/slims-tajuk
  * Description: Plugin untuk menampilkan subyek berdasarkan tajuk
  * Version: 1.0.0
  * Author: Drajat Hasan
