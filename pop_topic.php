@@ -77,7 +77,7 @@ if (isset($_POST['save']) AND (isset($_POST['topicID']) OR trim($_POST['search_s
                 // adding new topic
                 $topic_data['topic'] = $subject;
                 $topic_data['topic_type'] = $_POST['type'];
-                $topic_data['classification'] = '';
+                $topic_data['classification'] = $dbs->escape_string($_POST['classification']);
                 $topic_data['input_date'] = date('Y-m-d');
                 $topic_data['last_update'] = date('Y-m-d');
                 // insert new topic to topic master table
@@ -116,7 +116,7 @@ if (isset($_POST['save']) AND (isset($_POST['topicID']) OR trim($_POST['search_s
                 $sql_op->insert('mst_topic', $topic_data);
                 $last_id = $sql_op->insert_id;
             }
-            $_SESSION['biblioTopic'][$last_id] = array($last_id, intval($_POST['level']));
+            $_SESSION['biblioTopic'][$last_id] = array($last_id, intval($_POST['level']), $_POST['classification']);
         }
 
         utility::jsToastr('Subject', __('Subject added!'), 'success');
@@ -174,7 +174,7 @@ if (isset($_POST['save']) AND (isset($_POST['topicID']) OR trim($_POST['search_s
         })
         
         $('#topicID').on('click', '.voc', function() {
-            var vocVal = $(this).text();
+            var vocVal = $(this).find('.tajuk').text();
             $('#search_str').val(vocVal);
             $('input[name="classification"]').val($(this).data('class'))
         });
@@ -198,7 +198,9 @@ if (isset($_POST['save']) AND (isset($_POST['topicID']) OR trim($_POST['search_s
         $.post('<?= $url ?>', {keywords: value, type: $('select[name="type"]').val()}, function(result){
             $('#topicID').html('')
             result.forEach((item,id) => {
-                $('#topicID').append(`<li class="voc" data-class="${item.klasifikasi}">${item.tajuk}</li>`)
+                $('#topicID').append(`<li class="voc w-100" data-class="${item.klasifikasi}">
+                <div class="tajuk col-4 d-inline-block">${item.tajuk}</div><div class="col-8 d-inline-block">${item.klasifikasi}</div>
+                </li>`)
             })
             btn.removeClass('btn-secondary').addClass('btn-success')
             btn.html('<?= __('Search') ?>')
