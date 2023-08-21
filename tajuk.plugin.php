@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Tajuk
+ * Plugin Name: Tajuk Src
  * Plugin URI: https://github.com/drajathasan/slims-tajuk
  * Description: Plugin untuk menampilkan subyek berdasarkan tajuk
  * Version: 1.0.0

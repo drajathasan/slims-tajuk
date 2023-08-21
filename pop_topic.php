@@ -116,7 +116,7 @@ if (isset($_POST['save']) AND (isset($_POST['topicID']) OR trim($_POST['search_s
                 $sql_op->insert('mst_topic', $topic_data);
                 $last_id = $sql_op->insert_id;
             }
-            $_SESSION['biblioTopic'][$last_id] = array($last_id, intval($_POST['level']), preg_replace('/[^0-9A-Za-z]/i', '', $_POST['classification']));
+            $_SESSION['biblioTopic'][$last_id] = array($last_id, intval($_POST['level']), preg_replace('/[^0-9A-Za-z\-]/i', '', $_POST['classification']));
         }
 
         utility::jsToastr('Subject', __('Subject added!'), 'success');
