@@ -57,33 +57,33 @@ class Search
                     $i++;
                 #}
                 #echo 'No: '.$v."<br />";
-                $finres[$i]['no'] = $v;
+                //$finres[$i]['no'] = $v;
             }
             if($k % 5 == 1) {
                 #echo 'Jumlah cantuman: '.$v."<br />";
-                $finres[$i]['jumlah_cantuman'] = $v;
+                //$finres[$i]['jumlah_cantuman'] = $v;
             }
             if($k % 5 == 2) {
                 #echo 'Tajuk: '.$v."<br />";
-                $finres[$i]['tajuk'] = $v;
+                $finres[$i]['topic'] = $v;
             }
             if($k % 5 == 3) {
                 #echo 'Klasifikasi: '.$v."<hr />";
-                $finres[$i]['klasifikasi'] = trim($v);
+                $finres[$i]['classification'] = trim($v);
             }
         }
         #var_dump($finres);
-        preg_match_all("/^.*onclick\=\"OpenDetail.*$/misU", $page_crawled, $matches);
+        preg_match_all("/^.*onclick\=\"OpenDetail.*$/misU", $page_crawled??'', $matches);
         #var_dump($response->getBody()->getContents());
         $i = 0;
         foreach ($matches[0] as $km => $vm) {
             $_tid = explode("OpenDetail('", $vm);
             $tid = trim(preg_replace("/\'\)\;\"/i", "", $_tid[1]));
             #echo ($tid)."\n";
-            $finres[$i]['tid'] = $tid;
+            //d$finres[$i]['tid'] = $tid;
             $i++;
         }
-        return $finres;
+        return count($finres) > 0 ? ['status' => true, 'data' => $finres] : ['status' => false, 'data' => []];
 
     }
 }

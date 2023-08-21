@@ -108,9 +108,9 @@ if ($biblioID) {
     $topic = $biblio_topic_d['topic'];
     $topic_type = $sysconf['subject_type'][$biblio_topic_d['topic_type']];
 
-    $classification = $biblio_topic_d['classification'] !== null ? ' (' . (explode(' ',  trim($biblio_topic_d['classification']??''))[0]??'') . ')' : '';
+    $classification = !empty($biblio_topic_d['classification']) ? ' (' . (explode('-',  trim($biblio_topic_d['classification']??''))[0]??'') . ')' : '';
     // class link
-    $class_link = '&nbsp;<a href="#" class="notAJAX btn button '.(empty($classification) ? 'btn-disable' : 'btn-primary').' btn-primary" onclick="useClass(\'' . trim(str_replace(['(',')'], '', $classification)) . '\')" title="Gunakan sebagai Klasifikasi">Kelas</a>';
+    $class_link = '&nbsp;<a href="#" class="notAJAX btn button btn-primary" onclick="useClass(\'' . trim(str_replace(['(',')'], '', $classification)) . '\')" title="' . (empty($classification) ? 'Kelas tidak tersedia' : 'Gunakan sebagai Klasifikasi') . '" '.(empty($classification) ? 'disabled' : '').'>Kelas</a>';
 
     $table->appendTableRow(array($edit_link.$remove_link.$class_link, $topic . $classification, $topic_type, $biblio_topic_d['level']));
     $table->setCellAttr($row, 0, 'class="'.$row_class.'" style="font-weight: bold; width: 10%;"');
@@ -142,12 +142,14 @@ if ($biblioID) {
           $topic_type = $sysconf['subject_type'][$topic_d[1]];
       }
 
-      $table->appendTableRow(array($remove_link, $topic, $topic_type, $sysconf['subject_level'][$biblio_session[1]]), $biblio_session[1]);
-      $table->setCellAttr($row, 0, 'class="'.$row_class.'" style="font-weight: bold; background-color: #ffc466; width: 10%;"');
+      $classification = !empty(trim($biblio_session[2])) ? ' (' . trim(explode('-', $biblio_session[2])[0]??'') . ')' : '';
+      // class link
+      $class_link = '&nbsp;<a href="#" class="notAJAX btn button btn-primary" onclick="useClass(\'' . trim(str_replace(['(',')'], '', $classification)) . '\')" title="' . (empty($classification) ? 'Kelas tidak tersedia' : 'Gunakan sebagai Klasifikasi') . '" '.(empty($classification) ? 'disabled' : '').'>Kelas</a>';
+      $table->appendTableRow(array($remove_link . $class_link, $topic . $classification, $topic_type, $sysconf['subject_level'][$biblio_session[1]]));
+      $table->setCellAttr($row, 0, 'class="'.$row_class.'" style="font-weight: bold; background-color: #ffc466; width: 20%;"');
       $table->setCellAttr($row, 1, 'class="'.$row_class.'" style="background-color: #ffc466; width: 50%;"');
       $table->setCellAttr($row, 2, 'class="'.$row_class.'" style="background-color: #ffc466; width: 20%;"');
-      $table->setCellAttr($row, 3, 'class="'.$row_class.'" style="background-color: #ffc466; width: 20%;"');
-      $table->setCellAttr($row, 4, 'class="'.$row_class.'" style="background-color: #ffc466; width: 20%;"');
+      $table->setCellAttr($row, 3, 'class="'.$row_class.'" style="background-color: #ffc466; width: 10%;"');
 
       $row++;
     }
